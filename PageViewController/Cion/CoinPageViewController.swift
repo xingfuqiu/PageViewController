@@ -35,7 +35,7 @@ class CoinPageViewController: UIViewController {
     var headerView: UIView!
     
     /// 存放菜单的内容
-    var titles: [String] = ["简介","动态","图集","视频"]
+    var titles: [String] = ["简介","动态"]//,"图集","视频"]
     /// 记录当偏移量 Y
     var scrollY: CGFloat = 0
     /// 记录当偏移量

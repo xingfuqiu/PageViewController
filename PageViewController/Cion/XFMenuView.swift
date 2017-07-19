@@ -8,10 +8,11 @@
 
 import UIKit
 
-let kButtonWidth: CGFloat = 75
+let kButtonWidth: CGFloat = 72
+let kLineWidth: CGFloat = 36
 /** button两种状态的颜色 可以无视 */
-let COLOR_BUTTON_DEFAULT = UIColor(red: 124/255.0, green: 129/255.0, blue: 138/255.0, alpha: 1)
-let COLOR_BUTTON_SELECT = UIColor(red: 0/255.0, green: 127/255.0, blue: 255/255.0, alpha: 1)
+let COLOR_BUTTON_DEFAULT = UIColor(red: 51/255.0, green: 51/255.0, blue: 51/255.0, alpha: 1)
+let COLOR_BUTTON_SELECT = UIColor(red: 18/255.0, green: 178/255.0, blue: 69/255.0, alpha: 1)
 
 protocol XFMenuViewDelegate {
     func menuViewSelectIndex(_ index: Int)
@@ -43,11 +44,13 @@ class XFMenuView: UIView {
             
             let title = titleArr[i]
             button.setTitle(title, for: UIControlState())
+            button.titleLabel?.font = UIFont(name: "PingFangSC-Regular", size: 14)
             button.setTitleColor(COLOR_BUTTON_DEFAULT, for: UIControlState())
             
             button.addTarget(self, action: #selector(buttonClick(_:)), for: .touchUpInside)
             buttonArr.append(button)
             self.addSubview(button)
+            
         }
         buttonSelectIndex(0)
         
@@ -57,7 +60,12 @@ class XFMenuView: UIView {
         self.addSubview(line)
         
         // 下划线
-        lineView = UIView(frame: CGRect(x: margin,y: self.frame.size.height-2,width: kButtonWidth,height: 2))
+        // 固定下划线宽度
+        lineView = UIView(frame: CGRect(x: margin+(kButtonWidth/4), y: self.frame.size.height-3, width: kLineWidth, height: 3))
+        lineView?.layer.cornerRadius = 1.5
+        lineView?.layer.masksToBounds = true
+        // 铺满全部Button
+//        lineView = UIView(frame: CGRect(x: margin+(kButtonWidth/4), y: self.frame.size.height-2, width: kLineWidth, height: 2))
         lineView?.backgroundColor = COLOR_BUTTON_SELECT
         self.addSubview(lineView!)
 
@@ -79,7 +87,10 @@ class XFMenuView: UIView {
         let index = Int(rate)
         let pageRate = rate - CGFloat(index)
         let button = self.buttonArr[index]
-        self.lineView?.frame.origin.x = button.frame.origin.x + ( button.frame.width+margin )*pageRate
+        // // 固定下划线宽度
+        self.lineView?.center.x = button.center.x + ( button.frame.width+margin )*pageRate
+        // 铺满全部Button
+//        self.lineView?.frame.origin.x = button.frame.origin.x + ( button.frame.width+margin )*pageRate
         buttonSelectIndex(Int(rate + 0.5))
     }
     
